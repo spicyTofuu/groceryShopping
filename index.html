@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grocery Shopping List</title>
+    <script>
+        let users = [];
+        function addUser() {
+            const username = document.getElementById("username").value;
+            if(!username) return;
+            users.push({
+                name: username,
+                Costco: [],
+                ChineseMarket: []
+            });
+            document.getElementById("username").value = "";
+            render();
+        }
+
+        function addItem(section, userIndex) {
+            const itemName = document.getElementById(`item-name-${section}-${userIndex}`).value;
+            const itemQty = document.getElementById(`item-qty-${section}-${userIndex}`).value;
+            const itemEstPrice = document.getElementById(`item-est-price-${section}-${userIndex}`).value;
+            const itemActPrice = document.getElementById(`item-act-price-${section}-${userIndex}`).value;
+            if(!itemName) return;
+            users[userIndex][section].push({
+                name: itemName,
+                qty: itemQty,
+                estimatedPrice: itemEstPrice,
+                actualPrice: itemActPrice
+            });
+            render();
+        }
+
+        function render() {
+            let userSection = document.getElementById("user-section");
+            userSection.innerHTML = "";
+
+            users.forEach((user, userIndex) => {
+                userSection.innerHTML += `
+                    <h3>${user.name}</h3>
+                    <div id="${user.name}-Costco">
+                        <h4>Costco</h4>
+                        <button onclick="addItem('Costco', ${userIndex})">Add Item</button>
+                        <input id="item-name-Costco-${userIndex}" placeholder="Name">
+                        <input id="item-qty-Costco-${userIndex}" placeholder="Quantity">
+                        <input id="item-est-price-Costco-${userIndex}" placeholder="Est. Price">
+                        <input id="item-act-price-Costco-${userIndex}" placeholder="Act. Price">
+                    </div>
+                    <div id="${user.name}-ChineseMarket">
+                        <h4>Chinese Market</h4>
+                        <button onclick="addItem('ChineseMarket', ${userIndex})">Add Item</button>
+                        <input id="item-name-ChineseMarket-${userIndex}" placeholder="Name">
+                        <input id="item-qty-ChineseMarket-${userIndex}" placeholder="Quantity">
+                        <input id="item-est-price-ChineseMarket-${userIndex}" placeholder="Est. Price">
+                        <input id="item-act-price-ChineseMarket-${userIndex}" placeholder="Act. Price">
+                    </div>
+                `;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Grocery Shopping List</h1>
+    <div id="miscellaneous">
+        <h2>Miscellaneous</h2>
+        <!-- Add miscellaneous items here -->
+    </div>
+    <div id="user-management">
+        <h2>Users</h2>
+        <button onclick="addUser()">Add User</button>
+        <input id="username" placeholder="Username">
+    </div>
+    <div id="user-section">
+        <!-- User details will appear here -->
+    </div>
+
+    <script>
+        render();
+    </script>
+</body>
+</html>
